@@ -1,4 +1,4 @@
-# System Zarządzania Zamówieniami
+# System zarządzania zamówieniami
 
 ## 1. Faza projektowania
 
