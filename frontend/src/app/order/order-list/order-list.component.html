@@ -1,0 +1,8 @@
+<ul class="order-list-container">
+  @for(cartItem of cartItems; track cartItem.productName) {
+  <app-order-list-item [cartItem]="cartItem" />
+
+  <hr />
+
+  }
+</ul>

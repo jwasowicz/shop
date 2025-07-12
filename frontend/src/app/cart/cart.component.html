@@ -1,0 +1,27 @@
+<div class="cart-container">
+  <h2 class="cart-title">Your Cart ({{ cartService.items().length }})</h2>
+  @if(cartService.items().length > 0){
+  <ul class="cart-list">
+    @for(cartItem of cartService.items(); track cartItem.productName) {
+    <app-cart-item [cartItem]="cartItem" />
+    <hr />
+    }
+  </ul>
+  <div class="order-summary">
+    <p>Order total</p>
+    <p class="order-price">
+      {{ cartService.totalOrder() | currency }}
+    </p>
+  </div>
+  <div class="carbon-container">
+    <img src="./images/icon-carbon-neutral.svg" alt="carbon-neutral" />
+    <p>This is a <span class="bold">carbon-neutral</span> delivery</p>
+  </div>
+  <button (click)="showOrder()" class="order-btn">Confirm Order</button>
+  } @else {
+  <div class="cart-static">
+    <img src="./images/illustration-empty-cart.svg" alt="empty-cart" />
+    <p>Your added items will appear here</p>
+  </div>
+  }
+</div>

@@ -1,0 +1,52 @@
+<div class="product-item">
+  <div class="product-image-container">
+    <img class="product-image" [src]="products()?.image?.desktop" />
+    <button
+      (click)="changeAction(products()?.name || '')"
+      class="product-image-btn"
+      [style.background]="
+        this.products()?.active ? 'hsl(14, 86%, 42%)' : 'hsl(20, 50%, 98%)'
+      "
+    >
+      @if(!this.products()?.active) {
+      <div class="static">
+        <img src="./images/icon-add-to-cart.svg" alt="" />
+        <p>Add to Cart</p>
+      </div>
+      } @else {
+      <div class="hover">
+        <div
+          (click)="
+            handleClick({
+              productName: products()?.name || '',
+              actionType: 'decrement',
+            })
+          "
+          class="circle"
+        >
+          <img src="./images/icon-decrement-quantity.svg" alt="" />
+        </div>
+
+        <p #quantity>{{ quantityCount() }}</p>
+        <div
+          (click)="
+            handleClick({
+              productName: products()?.name || '',
+              actionType: 'increment',
+            })
+          "
+          class="circle"
+        >
+          <img src="./images/icon-increment-quantity.svg" alt="" />
+        </div>
+      </div>
+      }
+    </button>
+  </div>
+
+  <div class="product-info">
+    <h4 class="product-category">{{ products()?.category }}</h4>
+    <h3 class="product-name">{{ products()?.name }}</h3>
+    <p class="product-price">{{ products()?.price | currency }}</p>
+  </div>
+</div>

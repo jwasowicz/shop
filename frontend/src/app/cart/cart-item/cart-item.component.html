@@ -1,0 +1,16 @@
+<li class="cart-list-item">
+  <div class="item-header">{{ cartItem()?.productName }}</div>
+  <div
+    (click)="removeItem(cartItem()?.productName || '')"
+    class="item-delete-btn"
+  >
+    <img src="./images/icon-remove-item.svg" alt="delete-icon" />
+  </div>
+  <div class="item-data">
+    <div class="item-quantity">{{ cartItem()?.quantity }}x</div>
+    <div class="item-price">&#64; {{ cartItem()?.price | currency }}</div>
+    <div class="item-price bold">
+      {{ +cartItem()!.price * cartItem()!.quantity | currency }}
+    </div>
+  </div>
+</li>

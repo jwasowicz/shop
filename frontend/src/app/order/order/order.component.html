@@ -1,0 +1,19 @@
+<div (click)="hideOrderInfo()" class="overlay" #overlay>
+  <div
+    class="order-container"
+    (click)="$event.stopPropagation()"
+    #orderContainer
+  >
+    <img src="./images/icon-order-confirmed.svg" alt="order-confirmed icon" />
+    <h2 class="order-title">Order Confirmed</h2>
+    <p class="order-text">We hope you enjoy your food!</p>
+    <app-order-list />
+    <div class="order-summary">
+      <p>Order total</p>
+      <p class="order-price">
+        {{ cartService.totalOrder() | currency }}
+      </p>
+    </div>
+    <button (click)="clearCart()" class="order-btn">Start New Order</button>
+  </div>
+</div>

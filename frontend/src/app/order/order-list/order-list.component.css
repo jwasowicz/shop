@@ -1,0 +1,35 @@
+.order-list-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1.5rem;
+  gap: 1rem;
+  border-radius: 0.5rem;
+  list-style: none;
+  background: hsl(13, 31%, 94%);
+  overflow-y: scroll;
+  max-height: 15rem;
+}
+
+hr {
+  border: 1px solid hsl(15, 26%, 91%);
+}
+
+::-webkit-scrollbar {
+  width: 8px; /* Szerokość paska przewijania */
+  background-color: #f9f3f1; /* Tło scrollbara, dopasowane do jasnych elementów designu */
+  border-radius: 8px; /* Zaokrąglenie */
+}
+
+/* Stylowanie "tracka" scrollbara (tło wewnątrz scrolla) */
+::-webkit-scrollbar-track {
+  background-color: #eeeeee; /* Dopasowane do tła */
+  border-radius: 8px; /* Zaokrąglenie */
+}
+
+/* Stylowanie suwaka */
+::-webkit-scrollbar-thumb {
+  background-color: #d3d1d0; /* Kolor suwaka */
+  border-radius: 10px; /* Zaokrąglenie */
+  border: 2px solid #f9f3f1; /* Odstęp wokół suwaka */
+}

@@ -1,0 +1,20 @@
+<li class="order-list-container">
+  <img
+    class="order-list-img"
+    [src]="pictureSource"
+    [alt]="cartItem()?.productName"
+  />
+  <div class="order-list-info">
+    <div class="order-list-title">{{ cartItem()?.productName }}</div>
+
+    <div class="order-list-summary">
+      <div class="order-list-quantity">{{ cartItem()?.quantity }}x</div>
+      <div class="order-price-single">
+        &#64; {{ cartItem()?.price | currency }}
+      </div>
+    </div>
+    <div class="order-price-quantity">
+      {{ +cartItem()!.price * cartItem()!.quantity | currency }}
+    </div>
+  </div>
+</li>

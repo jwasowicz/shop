@@ -1,0 +1,14 @@
+<main class="container">
+  <div class="left-container">
+    <p>Witaj {{ userEmail }}</p>
+
+    <app-header headerTitle="Desserts" />
+    <app-product-list />
+  </div>
+  <div class="right-container">
+    <app-cart />
+  </div>
+</main>
+@if(cartService.showOrder()) {
+<app-order />
+}

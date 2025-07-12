@@ -1,0 +1,50 @@
+.order-list-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  gap: 0.5rem;
+}
+
+.order-list-img {
+  width: 3.3rem;
+  border-radius: 0.5rem;
+}
+
+.order-list-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.order-list-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.order-list-summary {
+  display: flex;
+  align-items: center;
+  position: relative;
+  gap: 1rem;
+  font-size: 0.75rem;
+}
+
+.order-list-quantity {
+  color: hsl(14, 86%, 42%);
+  font-weight: 600;
+}
+
+.order-price-single {
+  color: hsl(14, 25%, 72%);
+  font-weight: 600;
+}
+
+.order-price-quantity {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.8rem;
+  color: hsl(14, 65%, 9%);
+  font-weight: 600;
+  right: 0;
+}

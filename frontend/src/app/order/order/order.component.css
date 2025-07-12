@@ -1,0 +1,66 @@
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.order-container {
+  display: flex;
+  width: 30%;
+  flex-direction: column;
+  justify-content: center;
+  background: hsl(20, 50%, 98%);
+  border-radius: 0.5rem;
+  padding: 2rem 1.5rem;
+  gap: 1rem;
+}
+
+.order-container img {
+  width: 2rem;
+}
+
+.order-text {
+  font-size: 0.7rem;
+  color: hsl(14, 25%, 72%);
+  font-weight: 600;
+  margin: -0.5rem 0 1rem 0;
+}
+
+.order-summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-summary p:first-child {
+  color: hsl(12, 20%, 44%);
+  font-size: 0.6rem;
+  font-weight: 700;
+}
+
+.order-price {
+  color: hsl(14, 65%, 9%);
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.order-btn {
+  padding: 0.8rem;
+  background: hsl(14, 86%, 42%);
+  color: white;
+  text-align: center;
+  border-radius: 3rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  cursor: pointer;
+  font-weight: 'Red Hat Text', sans-serif;
+  border: none;
+  outline: none;
+}
