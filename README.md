@@ -18,38 +18,30 @@ System umożliwia:
 
 ### C. Diagram ERD
 
-![Diagram ERD](backend/erd/baza.png)
+<img width="703" height="520" alt="Untitled" src="https://github.com/user-attachments/assets/6453d99f-4fe1-4ddb-bd66-2719761ff481" />
 
 ### D. Encje i typy pól
 
 **Tabela `customer`**
 
-- `id`: integer, primary key
-- `first_name`: varchar
-- `last_name`: varchar
-- `email`: varchar, unique
+- `id`: serial, primary key
+- `email`: varchar
+- `password`: varchar
 
 **Tabela `product`**
 
-- `id`: integer, primary key
+- `id`: serial, primary key
 - `name`: varchar
-- `price`: decimal
+- `price`: numeric
 - `stock`: integer
 
 **Tabela `order`**
 
-- `id`: integer, primary key
+- `id`: serial, primary key
 - `date`: timestamp
-- `totalValue`: decimal
+- `customerId`: integer, foreign key → `customer(id)`
+- `totalValue`: numeric
 - `status`: varchar
-- `customerId`: foreign key → customer.id
-
-**Tabela `order_items`**
-
-- `id`: integer, primary key
-- `orderId`: foreign key → order.id
-- `productId`: foreign key → product.id
-- `quantity`: integer
 
 ### E. Związki między encjami
 
@@ -60,7 +52,7 @@ System umożliwia:
 ### F. Normalizacja
 
 - **1NF**: brak powtarzających się kolumn, wszystkie wartości są atomowe
-- **2NF**: atrybuty zależne od całego klucza głównego
+- **2NF**: wszystkie atrybuty zależą od całego klucza głównego
 - **3NF**: brak zależności przechodnich
 
 ---
@@ -79,21 +71,17 @@ System umożliwia:
 
 ### B. Przykładowe dane
 
-Dodano:
-
-- 5 klientów
-- 5 produktów
-- 5 zamówień z różnymi produktami i wartościami
+INSERT INTO product (name, price, stock) VALUES
+('Waffle with Berries', 6.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Vanilla Bean Crème Brûlée', 7.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Macaron Mix of Five', 8.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Classic Tiramisu', 5.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Pistachio Baklava', 4.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Lemon Meringue Pie', 5.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Red Velvet Cake', 4.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Salted Caramel Brownie', 4.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Vanilla Panna Cotta', 6.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10));
 
 ---
 
-## 3. Operacje i zapytania SQL (CRUD)
 
-### 1. Lista klientów i liczba ich zamówień
-
-```sql
-SELECT c.first_name, c.last_name, COUNT(o.id) AS orders_count
-FROM customer c
-LEFT JOIN "order" o ON o."customerId" = c.id
-GROUP BY c.id;
-```
