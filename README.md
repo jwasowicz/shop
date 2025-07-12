@@ -134,16 +134,23 @@ DELETE FROM "order" WHERE id = 1;
 ```
 shop/
 ├── backend/
-│   ├── erd/
-│   │   └── baza.png
-│   └── src/
-│       ├── entities/
-│       ├── dto/
-│       └── services/
+│ ├── erd/
+│ └── src/
+│ ├── controllers/
+│ ├── dto/
+│ ├── entities/
+│ └── services/
 ├── frontend/
-│   └── src/
-│       └── app/
-│           └── cart.service.ts
+│ └── src/
+│ └── app/
+│ ├── auth/
+│ ├── cart/
+│ ├── dashboard/
+│ ├── header/
+│ ├── models/
+│ ├── order/
+│ ├── product-list/
+│ └── services/
 ├── docker-compose.yml
 └── README.md
 ```
