@@ -5,83 +5,156 @@
 ### A. Wymagania funkcjonalne
 
 System umożliwia:
-
-- Przechowywanie informacji o klientach: imię, nazwisko, e-mail
-- Przechowywanie informacji o produktach: nazwa, cena, stan magazynowy
-- Rejestrowanie zamówień: data, łączna wartość, lista produktów
-- Powiązanie klienta z jego zamówieniami oraz powiązanie zamówień z produktami
+- Rejestrację klientów z unikalnym adresem e-mail i hasłem
+- Przechowywanie danych o produktach: nazwa, cena, stan magazynowy
+- Tworzenie zamówień powiązanych z klientem
+- Dodawanie wielu produktów do jednego zamówienia (relacja N:M)
+- Obliczanie wartości zamówienia i aktualizacja jego statusu (np. "open", "submitted")
+- Automatyczne zmniejszanie stanów magazynowych po zatwierdzeniu zamówienia
+- Możliwość ponownego składania zamówienia, jeśli ostatnie zostało zatwierdzone
+- Możliwość edycji zamówienia przed jego zatwierdzeniem
+- Wyszukiwanie produktów, które zostały zamówione przynajmniej raz
+- Pobieranie liczby zamówień dla danego klienta
+- Wysyłanie zamówienia z frontendu do backendu poprzez REST API
 
 ### B. Wymagania niefunkcjonalne
 
-- Spójność i poprawność danych (np. brak możliwości zamówienia produktu niedostępnego w magazynie)
-- Obsługa wielu użytkowników i wielu zamówień jednocześnie
+- System powinien obsługiwać wielu użytkowników jednocześnie
+- Spójność danych musi być zachowana przy współdzieleniu zasobów (np. stock produktów)
+- Dane muszą być odporne na błędy użytkownika (np. walidacja e-maila, unikalność, brak możliwości zamówienia pustego koszyka)
+- Bezpieczeństwo — hasła muszą być hashowane
+- System powinien być łatwo rozszerzalny (architektura modularna, np. NestJS + Angular)
+- Całość uruchamialna lokalnie z Docker Compose
+- Frontend powinien reagować na brak zalogowanego użytkownika (localStorage)
+- System powinien synchronizować koszyk na bieżąco z backendem
 
 ### C. Diagram ERD
 
-<img width="703" height="520" alt="Untitled" src="https://github.com/user-attachments/assets/6453d99f-4fe1-4ddb-bd66-2719761ff481" />
+<img width="732" height="683" alt="bazaaa" src="https://github.com/user-attachments/assets/9c31d1af-2f89-49de-a11f-dc1bd123648a" />
 
 ### D. Encje i typy pól
 
-**Tabela `customer`**
-
+#### Tabela `customer`
 - `id`: serial, primary key
-- `email`: varchar
+- `email`: varchar, unique
 - `password`: varchar
 
-**Tabela `product`**
-
+#### Tabela `product`
 - `id`: serial, primary key
 - `name`: varchar
-- `price`: numeric
-- `stock`: integer
+- `price`: numeric (CHECK: price >= 0)
+- `stock`: integer (CHECK: stock >= 0)
 
-**Tabela `order`**
-
+#### Tabela `order`
 - `id`: serial, primary key
 - `date`: timestamp
 - `customerId`: integer, foreign key → `customer(id)`
 - `totalValue`: numeric
-- `status`: varchar
+- `status`: varchar ("open", "submitted")
+
+#### Tabela `order_products_product`
+- `orderId`: integer, foreign key → `order(id)`
+- `productId`: integer, foreign key → `product(id)`
 
 ### E. Związki między encjami
 
-- Jeden klient może mieć wiele zamówień (1:N)
-- Jedno zamówienie może zawierać wiele produktów (N:M, przez `order_items`)
-- Jeden produkt może znajdować się w wielu zamówieniach (N:M)
+- Klient 1:N Zamówienia
+- Zamówienie N:M Produkty (przez tabelę `order_products_product`)
+- Produkt N:M Zamówienia
 
 ### F. Normalizacja
 
-- **1NF**: brak powtarzających się kolumn, wszystkie wartości są atomowe
-- **2NF**: wszystkie atrybuty zależą od całego klucza głównego
-- **3NF**: brak zależności przechodnich
+- 1NF — brak powtarzalnych grup, kolumny zawierają wartości atomowe
+- 2NF — wszystkie kolumny zależne od całego klucza głównego
+- 3NF — brak zależności przechodnich między atrybutami
 
 ---
 
 ## 2. Faza implementacji
 
-### A. Tworzenie bazy danych
+### A. Baza danych
 
-- Baza danych utworzona w PostgreSQL
-- Typy danych zgodne z modelem logicznym
-- Zdefiniowane klucze główne i obce
-- Ograniczenia:
-  - `NOT NULL`
-  - `UNIQUE` (dla `email`)
-  - `CHECK` (`price >= 0`, `stock >= 0`)
+- PostgreSQL z TypeORM
+- Klucze główne, obce, ograniczenia CHECK/NOT NULL/UNIQUE
 
 ### B. Przykładowe dane
 
+```sql
 INSERT INTO product (name, price, stock) VALUES
-('Waffle with Berries', 6.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
-('Vanilla Bean Crème Brûlée', 7.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
-('Macaron Mix of Five', 8.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
-('Classic Tiramisu', 5.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
-('Pistachio Baklava', 4.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
-('Lemon Meringue Pie', 5.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
-('Red Velvet Cake', 4.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
-('Salted Caramel Brownie', 4.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
-('Vanilla Panna Cotta', 6.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10));
+('Waffle with Berries', 6.5, 20),
+('Vanilla Bean Crème Brûlée', 7.0, 15),
+('Macaron Mix of Five', 8.0, 30),
+('Classic Tiramisu', 5.5, 10),
+('Pistachio Baklava', 4.0, 5);
+```
 
 ---
 
+## 3. Operacje i zapytania SQL
 
+### 1. Lista klientów z liczbą zamówień
+```sql
+SELECT c.email, COUNT(o.id) AS order_count
+FROM customer c
+LEFT JOIN "order" o ON o."customerId" = c.id
+GROUP BY c.id;
+```
+
+### 2. Produkty zamówione przynajmniej raz
+```sql
+SELECT DISTINCT p.* FROM product p
+JOIN order_products_product opp ON opp."productId" = p.id;
+```
+
+### 3. Zamówienia > 200zł
+```sql
+SELECT * FROM "order" WHERE "totalValue" > 200;
+```
+
+### 4. Dodaj klienta
+```sql
+INSERT INTO customer (email, password)
+VALUES ('example@example.com', 'hashedPassword');
+```
+
+### 5. Zmień e-mail
+```sql
+UPDATE customer SET email = 'new@example.com' WHERE id = 1;
+```
+
+### 6. Usuń zamówienie
+```sql
+DELETE FROM "order" WHERE id = 1;
+```
+
+---
+
+## 4. Architektura projektu
+
+```
+shop/
+├── backend/
+│   ├── erd/
+│   │   └── baza.png
+│   └── src/
+│       ├── entities/
+│       ├── dto/
+│       └── services/
+├── frontend/
+│   └── src/
+│       └── app/
+│           └── cart.service.ts
+├── docker-compose.yml
+└── README.md
+```
+
+---
+
+## 5. Uruchomienie projektu
+
+```bash
+docker-compose up --build
+```
+
+- Backend: http://localhost:3000  
+- Frontend: http://localhost:4200
