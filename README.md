@@ -81,11 +81,15 @@ System umożliwia:
 
 ```sql
 INSERT INTO product (name, price, stock) VALUES
-('Waffle with Berries', 6.5, 20),
-('Vanilla Bean Crème Brûlée', 7.0, 15),
-('Macaron Mix of Five', 8.0, 30),
-('Classic Tiramisu', 5.5, 10),
-('Pistachio Baklava', 4.0, 5);
+('Waffle with Berries', 6.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Vanilla Bean Crème Brûlée', 7.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Macaron Mix of Five', 8.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Classic Tiramisu', 5.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Pistachio Baklava', 4.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Lemon Meringue Pie', 5.0, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Red Velvet Cake', 4.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Salted Caramel Brownie', 4.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10)),
+('Vanilla Panna Cotta', 6.5, FLOOR(RANDOM() * (100 - 10 + 1) + 10));
 ```
 
 ---
