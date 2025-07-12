@@ -1,0 +1,5 @@
+echo "" > backend/.gitkeep
+echo "" > frontend/.gitkeep
+git add backend/.gitkeep frontend/.gitkeep
+git commit -m "Add .gitkeep to preserve empty folders in repo"
+git push
