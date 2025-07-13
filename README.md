@@ -65,8 +65,11 @@ System umożliwia:
 ### F. Normalizacja
 
 - 1NF — brak powtarzalnych grup, kolumny zawierają wartości atomowe
+Warunek: wszystkie atrybuty zawierają wartości atomowe (nierozdzielne) i każdy rekord ma unikalny identyfikator (klucz główny).
 - 2NF — wszystkie kolumny zależne od całego klucza głównego
+Warunek: spełnia 1NF i każdy atrybut niekluczowy jest zależny od całego klucza głównego, a nie tylko jego części.
 - 3NF — brak zależności przechodnich między atrybutami
+Warunek: spełnia 2NF oraz żaden atrybut niekluczowy nie zależy przechodnio od klucza głównego.
 
 ---
 
